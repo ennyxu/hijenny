@@ -24,7 +24,6 @@ doodles.forEach((doodle, index) => {
     let targetX = 0;
     let targetY = 0;
 
-    /* Each doodle can have its own settings */
     const strength =
         Number(doodle.dataset.strength) || 15;
 
@@ -47,18 +46,9 @@ doodles.forEach((doodle, index) => {
             distanceY * distanceY
         );
 
-
-        /*
-        -------------------------
-        MOUSE INTERACTION
-        -------------------------
-        */
-
         const attractionRadius = 160;
         const repelRadius = 75;
 
-
-        /* Mouse is VERY close → move away */
 
         if (distance < repelRadius && distance > 0) {
 
@@ -76,9 +66,6 @@ doodles.forEach((doodle, index) => {
                 strength;
         }
 
-
-        /* Mouse is nearby → move slightly toward it */
-
         else if (distance < attractionRadius) {
 
             const force =
@@ -95,9 +82,6 @@ doodles.forEach((doodle, index) => {
                 force *
                 3;
         }
-
-
-        /* Mouse is far away → return home */
 
         else {
 
@@ -167,7 +151,6 @@ if (showerThoughtBtn && thoughtBubble && bubbleClose) {
 const bookOverlay = document.getElementById("bookOverlay");
 const bookElement = document.getElementById("book");
 
-// Add a separate image list for each project here.
 const projectPages = {
     project1: [
         "images/project1/page-1.jpg",
@@ -186,7 +169,6 @@ const motionDuration = () =>
         ? 0
         : 400;
 
-// Finds the translation and scale between the book and button.
 function buttonTransform() {
     const button = activeButton.getBoundingClientRect();
     const book = bookOverlay.getBoundingClientRect();
@@ -214,7 +196,6 @@ async function openBook(button) {
     activeButton = button;
     bookOverlay.showModal();
 
-    // Fit two portrait pages inside the screen.
     const pageWidth = Math.floor(
         Math.min(420, window.innerWidth * 0.44,
                  window.innerHeight * 0.8 * 11 / 8.5)
@@ -238,7 +219,6 @@ async function openBook(button) {
         pageFlip.turnToPage(0);
     }
 
-    // Let the browser calculate the book's position.
     await new Promise(requestAnimationFrame);
 
     await bookOverlay.animate(
@@ -292,8 +272,6 @@ document.querySelectorAll(".project-box").forEach(button => {
     button.addEventListener("click", () => openBook(button));
 });
 
-// Close only when a click starts AND ends outside the book.
-// This avoids closing when you drag a page beyond its edge.
 let startedOutside = false;
 
 function isOutside(event) {
@@ -316,13 +294,11 @@ bookOverlay.addEventListener("click", event => {
     startedOutside = false;
 });
 
-// Escape also closes the book.
 bookOverlay.addEventListener("cancel", event => {
     event.preventDefault();
     closeBook();
 });
 
-// Optional keyboard page turning.
 bookOverlay.addEventListener("keydown", event => {
     if (busy) return;
 

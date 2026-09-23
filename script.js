@@ -49,7 +49,6 @@ doodles.forEach((doodle, index) => {
         const attractionRadius = 160;
         const repelRadius = 75;
 
-
         if (distance < repelRadius && distance > 0) {
 
             const force =
@@ -150,67 +149,158 @@ if (showerThoughtBtn && thoughtBubble && bubbleClose) {
 
 const bookOverlay = document.getElementById("bookOverlay");
 const bookElement = document.getElementById("book");
+const prevPage = document.getElementById("prevPage");
+const nextPage = document.getElementById("nextPage");
+const bookClose = document.getElementById("bookClose");
+const pageIndicators = document.getElementById("pageIndicators");
+const pageCount = document.getElementById("pageCount");
 
+/*
+Each image is ONE portrait page: 8.5 wide × 11 tall.
+
+Pages 1 + 2 form the first 17 × 11 spread.
+Pages 3 + 4 form the second spread.
+
+Use an even number of images.
+Replace these paths with your actual image locations.
+*/
 const projectPages = {
     project1: [
-        "images/project1/page-1.jpg",
-        "images/project1/page-2.jpg",
-        "images/project1/page-3.jpg",
-        "images/project1/page-4.jpg"
+        "images/project1/page-1.png",
+        "images/project1/page-2.png",
+        "images/project1/page-3.png",
+        "images/project1/page-4.png",
+        "images/project1/page-5.png",
+        "images/project1/page-6.png",
+        "images/project1/page-7.png",
+        "images/project1/page-8.png"     
     ]
+
+    // Add more projects like this:
+    //
+    // ,project2: [
+    //     "images/project2/page-1.jpg",
+    //     "images/project2/page-2.jpg"
+    // ]
 };
 
 let pageFlip;
 let activeButton;
-let busy = false;
+let activePages = [];
+let turning = false;
 
-const motionDuration = () =>
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? 0
-        : 400;
+const reducedMotion = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function buttonTransform() {
-    const button = activeButton.getBoundingClientRect();
-    const book = bookOverlay.getBoundingClientRect();
+function getPageWidth() {
+    // Leave room for arrows, close button, and indicators.
+    const availableWidth = window.innerWidth - 120;
+    const availableHeight = window.innerHeight - 120;
 
-    const x = button.left + button.width / 2
-        - (book.left + book.width / 2);
-
-    const y = button.top + button.height / 2
-        - (book.top + book.height / 2);
-
-    const scale = Math.min(
-        button.width / book.width,
-        button.height / book.height
+    return Math.max(
+        1,
+        Math.floor(
+            Math.min(
+                460,
+                availableWidth / 2,
+                availableHeight * 8.5 / 11
+            )
+        )
     );
-
-    return `translate(${x}px, ${y}px) scale(${scale})`;
 }
 
-async function openBook(button) {
-    const pages = projectPages[button.dataset.project];
+function updateIndicators() {
+    if (!pageFlip) return;
 
-    if (!pages || busy || bookOverlay.open) return;
-
-    busy = true;
-    activeButton = button;
-    bookOverlay.showModal();
-
-    const pageWidth = Math.floor(
-        Math.min(420, window.innerWidth * 0.44,
-                 window.innerHeight * 0.8 * 11 / 8.5)
+    const currentSpread = Math.floor(
+        pageFlip.getCurrentPageIndex() / 2
     );
 
+    const totalSpreads = Math.ceil(activePages.length / 2);
+
+    [...pageIndicators.children].forEach((button, index) => {
+        button.setAttribute(
+            "aria-current",
+            index === currentSpread ? "page" : "false"
+        );
+    });
+
+    prevPage.disabled = currentSpread === 0;
+    nextPage.disabled = currentSpread >= totalSpreads - 1;
+
+    pageCount.textContent =
+        `${currentSpread + 1} / ${totalSpreads}`;
+}
+
+function createIndicators() {
+    pageIndicators.replaceChildren();
+
+    const totalSpreads = Math.ceil(activePages.length / 2);
+
+    for (let index = 0; index < totalSpreads; index++) {
+        const button = document.createElement("button");
+
+        button.className = "page-indicator";
+        button.type = "button";
+        button.setAttribute(
+            "aria-label",
+            `Go to spread ${index + 1}`
+        );
+
+        button.addEventListener("click", () => {
+            if (turning) return;
+
+            pageFlip.turnToPage(index * 2);
+            updateIndicators();
+        });
+
+        pageIndicators.append(button);
+    }
+}
+
+function openBook(button) {
+    if (bookOverlay.open) return;
+
+    const pages = projectPages[button.dataset.project];
+
+    if (!pages?.length) {
+        alert("Add this project's page images to projectPages first.");
+        return;
+    }
+
+    if (!window.St?.PageFlip) {
+        alert("The book viewer couldn't load. Refresh and try again.");
+        return;
+    }
+
+    activeButton = button;
+    activePages = pages;
+    turning = false;
+
+    bookOverlay.showModal();
+
     if (!pageFlip) {
+        const pageWidth = getPageWidth();
+
         pageFlip = new St.PageFlip(bookElement, {
+            
             width: pageWidth,
-            height: Math.round(pageWidth * 8.5 / 11),
+            height: Math.round(pageWidth * 11 / 8.5),
+
             size: "fixed",
             usePortrait: false,
-            showCover: false,
-            drawShadow: true,
-            maxShadowOpacity: 0.3,
-            flippingTime: 800
+            showCover: false,     
+            flippingTime: 650,
+            
+
+            // Use the arrows and indicators to navigate.
+            useMouseEvents: false
+        });
+
+        pageFlip.on("flip", updateIndicators);
+
+        pageFlip.on("changeState", event => {
+            turning = event.data !== "read";
         });
 
         pageFlip.loadFromImages(pages);
@@ -219,63 +309,110 @@ async function openBook(button) {
         pageFlip.turnToPage(0);
     }
 
-    await new Promise(requestAnimationFrame);
+    createIndicators();
+    updateIndicators();
+    bookClose.focus();
 
-    await bookOverlay.animate(
-        [
+    // Expand out from the project button.
+    if (!reducedMotion()) {
+        const source = button.getBoundingClientRect();
+        const destination = bookOverlay.getBoundingClientRect();
+
+        const x =
+            source.left + source.width / 2 -
+            destination.left - destination.width / 2;
+
+        const y =
+            source.top + source.height / 2 -
+            destination.top - destination.height / 2;
+
+        bookOverlay.animate(
+            [
+                {
+                    opacity: 0,
+                    transform: `translate(${x}px, ${y}px) scale(0.2)`
+                },
+                {
+                    opacity: 1,
+                    transform: "translate(0, 0) scale(1)"
+                }
+            ],
             {
-                transform: buttonTransform(),
-                opacity: 0
-            },
-            {
-                transform: "translate(0, 0) scale(1)",
-                opacity: 1
+                duration: 380,
+                easing: "cubic-bezier(.2,.8,.2,1)"
             }
-        ],
-        {
-            duration: motionDuration(),
-            easing: "cubic-bezier(.2,.8,.2,1)"
-        }
-    ).finished;
-
-    busy = false;
+        );
+    }
 }
 
-async function closeBook() {
-    if (busy || !bookOverlay.open) return;
+function changeSpread(direction) {
+    if (!pageFlip || turning) return;
 
-    busy = true;
+    const currentSpread = Math.floor(
+        pageFlip.getCurrentPageIndex() / 2
+    );
 
-    await bookOverlay.animate(
-        [
-            {
-                transform: "translate(0, 0) scale(1)",
-                opacity: 1
-            },
-            {
-                transform: buttonTransform(),
-                opacity: 0
-            }
-        ],
-        {
-            duration: motionDuration(),
-            easing: "ease-in"
-        }
-    ).finished;
+    const targetSpread = currentSpread + direction;
+    const totalSpreads = Math.ceil(activePages.length / 2);
 
+    if (targetSpread < 0 || targetSpread >= totalSpreads) return;
+
+    if (reducedMotion()) {
+        pageFlip.turnToPage(targetSpread * 2);
+        updateIndicators();
+    } else if (direction > 0) {
+        pageFlip.flipNext();
+    } else {
+        pageFlip.flipPrev();
+    }
+}
+
+function closeBook() {
     bookOverlay.close();
-    activeButton.focus();
-    busy = false;
+    activeButton?.focus();
 }
 
-document.querySelectorAll(".project-box").forEach(button => {
+/* PROJECT BUTTONS */
+
+document.querySelectorAll(".project-box").forEach((button, index) => {
+    button.setAttribute(
+        "aria-label",
+        `Open project ${index + 1} sketchbook`
+    );
+
+    button.setAttribute("aria-haspopup", "dialog");
     button.addEventListener("click", () => openBook(button));
 });
 
-let startedOutside = false;
+/* ARROWS AND CLOSE BUTTON */
+
+prevPage.addEventListener("click", () => changeSpread(-1));
+nextPage.addEventListener("click", () => changeSpread(1));
+bookClose.addEventListener("click", closeBook);
+
+/* KEYBOARD CONTROLS */
+
+bookOverlay.addEventListener("keydown", event => {
+    if (event.key === "ArrowRight") {
+        event.preventDefault();
+        changeSpread(1);
+    }
+
+    if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        changeSpread(-1);
+    }
+});
+
+bookOverlay.addEventListener("cancel", event => {
+    event.preventDefault();
+    closeBook();
+});
+
+/* CLICK THE BACKDROP TO CLOSE */
 
 function isOutside(event) {
-    const rect = bookElement.getBoundingClientRect();
+    const rect = bookOverlay.getBoundingClientRect();
 
     return (
         event.clientX < rect.left ||
@@ -285,30 +422,30 @@ function isOutside(event) {
     );
 }
 
+let startedOutside = false;
+
 bookOverlay.addEventListener("pointerdown", event => {
     startedOutside = isOutside(event);
 });
 
 bookOverlay.addEventListener("click", event => {
-    if (startedOutside && isOutside(event)) closeBook();
+    if (startedOutside && isOutside(event)) {
+        closeBook();
+    }
+
     startedOutside = false;
 });
 
-bookOverlay.addEventListener("cancel", event => {
-    event.preventDefault();
-    closeBook();
-});
+/* RESIZE THE BOOK WITH THE WINDOW */
 
-bookOverlay.addEventListener("keydown", event => {
-    if (busy) return;
+window.addEventListener("resize", () => {
+    if (!pageFlip) return;
 
-    if (event.key === "ArrowRight") {
-        event.preventDefault();
-        pageFlip.flipNext();
-    }
+    const pageWidth = getPageWidth();
+    const settings = pageFlip.getSettings();
 
-    if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        pageFlip.flipPrev();
-    }
+    settings.width = pageWidth;
+    settings.height = Math.round(pageWidth * 11 / 8.5);
+
+    pageFlip.update();
 });

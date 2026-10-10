@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>hi jenny</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+    <section class="hero">
+
+        <div class="intro">
+
+            <img
+                class="profile"
+                src="images/profile.png"
+                alt="pfp"
+            >
+
+
+            <h1 class="name-area">
+
+                <img
+                    class="name"
+                    src="images/name.svg"
+                    alt="hi, i'm jenny xu"
+                >
+
+                <img
+                    class="doodle bow"
+                    data-strength="16"
+                    src="images/doodles/bow.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle star"
+                    data-strength="10"
+                    src="images/doodles/star.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle smile"
+                    data-strength="12"
+                    src="images/doodles/smile.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle spiral"
+                    data-strength="22"
+                    src="images/doodles/spiral.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle squiggle"
+                    data-strength="18"
+                    src="images/doodles/squiggle.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle blue-dot"
+                    data-strength="8"
+                    src="images/doodles/blue-dot.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle green-dot"
+                    data-strength="10"
+                    src="images/doodles/green-dot.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle black-dot-1"
+                    data-strength="6"
+                    src="images/doodles/black-dot-1.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle black-dot-2"
+                    data-strength="7"
+                    src="images/doodles/black-dot-2.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle black-dot-3"
+                    data-strength="5"
+                    src="images/doodles/black-dot-3.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle line-1"
+                    data-strength="14"
+                    src="images/doodles/line-1.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle line-2"
+                    data-strength="13"
+                    src="images/doodles/line-2.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle blue-line-1"
+                    data-strength="14"
+                    src="images/doodles/blue-line-1.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle blue-line-2"
+                    data-strength="14"
+                    src="images/doodles/blue-line-2.svg"
+                    alt=""
+                >
+
+                <img
+                    class="doodle blue-line-3"
+                    data-strength="18"
+                    src="images/doodles/blue-line-3.svg"
+                    alt=""
+                >
+                
+                <img
+                    class="doodle green-dot-2"
+                    data-strength="8"
+                    src="images/doodles/green-dot-2.svg"
+                    alt=""
+                >
+
+            </h1>
+
+
+            <p class="bio">
+                HI i’m currently an Architectural Engineering student @ the University of Waterloo.
+                Passionate about design, functionality, and how these principles shape users’ experiences,
+                and spaces to create/change ones perspective. I like
+            
+                <button class="shower-thought-btn" id="showerThoughtBtn">
+                    shower thoughts
+                </button>,
+            
+                dad jokes, and Uncle Tetsu cheesecakes! SO, If any of these row your boat,
+                lets connect and make something cool :)
+            </p>
+            
+            <div class="thought-bubble" id="thoughtBubble">
+                <button class="bubble-close" id="bubbleClose">×</button>
+            
+                <p>
+                    deez nuts
+                </p>
+            </div>
+
+            <div class="contact">
+
+                <h2>Lets Stay in Touch</h2>
+
+                <div class="contact-icons">
+
+                    <img
+                        src="images/linkedin.svg"
+                        alt="LinkedIn"
+                    >
+
+                    <img
+                        src="images/email.svg"
+                        alt="Email"
+                    >
+
+                    <img
+                        src="images/instagram.svg"
+                        alt="Instagram"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="projects">
+
+            <button class="project-box project-1" data-project="project1"></button>
+            <button class="project-box project-2" data-project="project2"></button>
+            <button class="project-box project-3" data-project="project3"></button>
+        
+            <button class="project-box project-4" data-project="project4"></button>
+            <button class="project-box project-5" data-project="project5"></button>
+            <button class="project-box project-6" data-project="project6"></button>
+        
+            <button class="project-box project-7" data-project="project7"></button>
+            <button class="project-box project-8" data-project="project8"></button>
+            <button class="project-box project-9" data-project="project9"></button>
+        
+        </div>
+
+    </section>
+
+    <dialog id="bookOverlay" aria-label="Project sketchbook">
+        <button id="bookClose" aria-label="Close sketchbook">×</button>
+    
+        <div class="book-stage">
+            <button
+                id="prevPage"
+                class="book-arrow"
+                aria-label="Previous spread"
+            >❮</button>
+    
+            <div id="book"></div>
+    
+            <button
+                id="nextPage"
+                class="book-arrow"
+                aria-label="Next spread"
+            >❯</button>
+        </div>
+    
+        <div class="book-footer">
+            <div id="pageIndicators" aria-label="Choose a spread"></div>
+            <span id="pageCount" role="status" aria-live="polite"></span>
+        </div>
+    </dialog>
+    
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

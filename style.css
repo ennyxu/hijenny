@@ -1,0 +1,498 @@
+/* website */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    background-color: #fefefe;
+    font-family: "Inter", sans-serif;
+}
+
+
+/* whole main area */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 150px;
+    padding: 40px;
+    box-sizing: border-box;
+    transform: scale(0.85);
+}
+
+
+/* left side */
+
+.intro {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* profile */
+
+.profile {
+    width: 350px;
+    height: 342px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 0;
+}
+
+
+/* name */
+
+h1 {
+    margin: 0;
+}
+
+.name-area {
+    position: relative;
+    width: 350px;
+    height: 55px;
+    margin: 0;
+}
+
+.name {
+    position: absolute;
+    width: 214px;
+    left: 65px;
+    top: 10px;
+    display: block;
+}
+
+
+/* doodles */
+
+.doodle {
+    position: absolute;
+    will-change: transform;
+}
+
+.bow {
+    width: 41.22px;
+    height: 31.77px;
+    left: 9px;
+    top: 12px;
+}
+
+.star {
+    width: 20px;
+    height: 20px;
+    right: 40px;
+    top: 2px;
+}
+
+.smile {
+    width: 24.17px;
+    height: 12.26px;
+    left: -62px;
+    top: -11px;
+}
+
+.spiral {
+    width: 12px;
+    height: 12.39px;
+    left: -25px;
+    top: -5px;
+}
+
+.squiggle {
+    width: 27.89px;
+    height: 32.32px;
+    left: -34px;
+    top: -70px;
+}
+
+.blue-dot {
+    width: 20px;
+    height: 15px;
+    right: -35px;
+    top: -35px;
+}
+
+.green-dot {
+    width: 20px;
+    height: 20px;
+    left: -35px;
+    top: 37px;
+}
+
+.black-dot-1 {
+    width: 10px;
+    right: 40px;
+    top: 33px;
+}
+
+.black-dot-2 {
+    width: 9px;
+    left: 33px;
+    top: -3px;
+}
+
+.black-dot-3 {
+    width: 8px;
+    right: -20px;
+    top: 25px;
+}
+
+.line-1 {
+    width: 30px;
+    right: 7px;
+    top: -5px;
+}
+
+.line-2 {
+    width: 30px;
+    right: 7px;
+    bottom: 20px;
+}
+
+.blue-line-1 {
+    width: 35px;
+    left: -50px;
+    top: -340px;
+}
+
+.blue-line-2 {
+    width: 35px;
+    left: -55px;
+    top: -300px;
+}
+
+.blue-line-3 {
+    width: 30px;
+    left: -45px;
+    top: -280px;
+}
+
+.green-dot-2 {
+    width: 18px;
+    right: -30px;
+    top: -70px;
+}
+
+/* bio */
+
+.bio {
+    width: 350px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: justify;
+    box-sizing: border-box;
+}
+
+.contact {
+    position: static;
+    margin-top: 15px !important;
+    text-align: left;
+}
+
+.contact h2 {
+    font-size: 13px;
+    margin: 0 0 8px;
+}
+
+.contact-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.contact-icons img {
+    width: 24px;
+    height: 24px;
+}
+
+/* right side */
+
+.projects {
+    width: 600px;
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 199px);
+    grid-auto-rows: 194px;
+    gap: 6px;
+}
+
+/* project sq */
+
+.project-box {
+    aspect-ratio: 1 / 1;
+    border: 5px solid black;
+    padding: 6.2px;
+    background-clip: content-box;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.project-box {
+    position: relative;
+    border: none;
+}
+
+.project-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("images/bl-outline.svg") center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+/* project colours */
+
+.project-1 {
+    background-color: #A8D0E5;
+}
+
+.project-2 {
+    background-color: #75B1CE;
+}
+
+.project-3 {
+    background-color: #A8D0E5;
+}
+
+.project-4 {
+    background-color: #EF3434;
+}
+
+.project-5 {
+    background-color: #575481;
+}
+
+.project-6 {
+    background-color: #A5B866;
+}
+
+.project-7 {
+    background-color: #FFF9E4;
+}
+
+.project-8 {
+    background-color: #B1ADD0;
+}
+
+.project-9 {
+    background-color: #D4D4D4;
+}
+
+/* buttons */
+
+.project-box {
+    cursor: pointer;
+}
+
+#bookOverlay {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+
+    width: fit-content;
+    max-width: 100vw;
+    max-height: 100dvh;
+
+    box-sizing: border-box;
+    padding: 36px 10px 8px;
+
+    border: none;
+    background: transparent;
+    color: white;
+    overflow: visible;
+}
+
+#bookOverlay::backdrop {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.book-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#book {
+    flex: none;
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
+}
+
+.sheet-half {
+    overflow: hidden;
+    background: white;
+}
+
+.sheet-image {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 200%;
+    background: white;
+}
+
+.sheet-image-right {
+    left: -100%;
+}
+
+.sheet-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.book-arrow {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 48px;
+
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.book-arrow:disabled {
+    opacity: 0.25;
+    cursor: default;
+}
+
+#bookClose {
+    position: absolute;
+    top: 0;
+    right: 10px;
+
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+
+.book-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    min-height: 40px;
+}
+
+#pageIndicators {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    max-width: 65vw;
+}
+
+.page-indicator {
+    width: 26px;
+    height: 28px;
+    padding: 12px 0;
+
+    border: none;
+    background: rgba(255, 255, 255, 0.35);
+    background-clip: content-box;
+
+    cursor: pointer;
+}
+
+.page-indicator[aria-current="page"] {
+    background-color: white;
+}
+
+#pageCount {
+    font-size: 12px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+#bookOverlay button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
+
+/* shower thought */
+
+.shower-thought-btn {
+    border: none;
+    background: none;
+    padding: 0;
+
+    font: inherit;
+    color: solid rgb(96, 137, 191);
+
+    cursor: pointer;
+}
+
+.thought-bubble {
+    display: none;  
+
+    position: absolute;
+
+    width: 220px;
+    padding: 16px 18px;
+
+    background: rgb(255, 253, 247);
+    border: 2px solid rgb(96, 137, 191);
+    border-radius: 18px;
+
+    font-size: 13px;
+    line-height: 1.4;
+
+    z-index: 20;
+}
+
+.thought-bubble.show {
+    display: block;
+}
+
+.thought-bubble::after {
+    content: "";
+
+    position: absolute;
+    bottom: -11px;
+    left: 28px;
+
+    width: 18px;
+    height: 18px;
+
+    background: white;
+
+    border-right: 2px solid rgb(96, 137, 191);
+    border-bottom: 2px solid rgb(96, 137, 191);
+
+    transform: rotate(45deg);
+}
+
+.bubble-close {
+    position: absolute;
+    top: 4px;
+    right: 9px;
+
+    border: none;
+    background: none;
+
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.thought-bubble {
+    top: 470px;
+    left: 400px;
+}

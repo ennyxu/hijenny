@@ -25,7 +25,7 @@ doodles.forEach((doodle, index) => {
     let targetY = 0;
 
     const strength =
-        Number(doodle.dataset.strength) || 15;
+        (Number(doodle.dataset.strength) || 15) * 1.25;
 
     const speed =
         Number(doodle.dataset.speed) || 0.055;
@@ -74,12 +74,12 @@ doodles.forEach((doodle, index) => {
             targetX =
                 (distanceX / distance) *
                 force *
-                3;
+                4;
 
             targetY =
                 (distanceY / distance) *
                 force *
-                3;
+                4;
         }
 
         else {
@@ -100,18 +100,18 @@ doodles.forEach((doodle, index) => {
         const floatX =
             Math.sin(
                 time * 0.7 + index * 1.7
-            ) * 1.2;
+            ) * 1.8;
 
         const floatY =
             Math.cos(
                 time * 0.6 + index * 1.3
-            ) * 1.2;
+            ) * 1.8;
 
         const rotation =
             currentX * 0.12 +
             Math.sin(
                 time * 0.5 + index
-            ) * 0.4;
+            ) * 0.6;
 
 
         doodle.style.transform =
